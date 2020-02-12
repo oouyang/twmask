@@ -81,7 +81,7 @@ def twmask():
 
 @app.route("/")
 def home():
-  return "Hello TW Mask"
+    return render_template('index.html')
 
 @app.route("/test")
 def test():
