@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 import redis,json,csv,os
 import pandas as pd
@@ -64,7 +64,10 @@ def geodist(a, b):
 @app.route("/twmask")
 def twmask():
   md = loadmaskdata()
+  lat = request.args.get('lat')
+  lng = request.args.get('lng')
   loc = (25.026536999999998, 121.544442)
+  loc = (lat, lng)
   calcDist(md, loc)
   ret = sorted(md[1:], key=lambda r: r['dist'])[:5]
   return json.dumps(ret)
