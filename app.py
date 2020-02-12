@@ -46,7 +46,7 @@ def loadmaskdata():
                           'tel': r[4], 'adult': r[5], 'child': r[6],
                           'lastsync': r[7], 'now': r[8], 'pos': r[9]})
       redis.set('mask:tw', json.dumps(ret))
-      redis.expire('mask:tw', 900)
+      redis.expire('mask:tw', 3600)
   return ret
 
 def calcDist(md, loc):
