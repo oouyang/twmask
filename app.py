@@ -18,9 +18,14 @@ redis = redis.Redis(host=rhost, port=rport, password=rpass)
 
 with open('ds.json') as f:
   ds = json.load(f)
+
+
 ds_map = {}
+
+
 for i in ds:
   ds_map[i['i']] = i['p']
+
 
 def loadmaskdata():
   if redis.exists('mask:tw'):
@@ -52,11 +57,11 @@ def calcDist(md, loc):
 
 def geolatlng(addr):
   if redis.exists(f'a:{addr}'):
-    location = json.loads(redis.hgetall(f'a:{addr}'))
+    location = json.loads(redis.get(f'a:{addr}'))
   else:
     #location = geolocator.geocode(addr)
     location = geocoder.arcgis(addr).json
-    redis.hmset(f'a:{addr}',json.dumps(location))
+    redis.set(f'a:{addr}',json.dumps(location))
   return "N{};W{}".format(location['lat'],location['lng'])
 
 def geodist(a, b):
