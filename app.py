@@ -52,11 +52,11 @@ def calcDist(md, loc):
 
 def geolatlng(addr):
   if redis.exists(f'a:{addr}'):
-    location = redis.hgetall(f'a:{addr}')
+    location = json.loads(redis.hgetall(f'a:{addr}'))
   else:
     #location = geolocator.geocode(addr)
     location = geocoder.arcgis(addr).json
-    redis.hmset(f'a:{addr}',location)
+    redis.hmset(f'a:{addr}',json.dumps(location))
   return "N{};W{}".format(location['lat'],location['lng'])
 
 def geodist(a, b):
