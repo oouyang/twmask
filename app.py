@@ -51,7 +51,7 @@ def loadmaskdata():
 
 def calcDist(md, loc):
   for r in md:
-    pos = r[9].replace('N','').replace(';W',';').split(';')
+    pos = r['pos'].replace('N','').replace(';W',';').split(';')
     dist = geodist(loc, (float(pos[0]),float(pos[1])))
     r['dist'] = dist
 
