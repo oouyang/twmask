@@ -74,9 +74,6 @@ def twmask():
   ret = sorted(md[1:], key=lambda r: r['dist'])[:5]
   return json.dumps(ret)
 
-"""
-"""
-
 @app.route("/")
 def home():
   return "Hello Flask 2"
@@ -84,7 +81,6 @@ def home():
 @app.route("/test")
 def test():
   addr=request.args.get('addr')
-  #return addr
   return geolatlng(addr)
 
 if __name__=="__main__":
