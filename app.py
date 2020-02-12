@@ -11,8 +11,6 @@ app=Flask(__name__)
 url = "https://bit.ly/twmask"
 orig = datetime(1970, 1, 1)
 geolocator = ArcGIS(user_agent='twmask')
-
-"""
 rhost = os.environ['RHOST']
 rport = int(os.environ['RPORT'])
 rpass = os.environ['RPASS']
@@ -24,6 +22,7 @@ ds_map = {}
 for i in ds:
   ds_map[i['i']] = i['p']
 
+"""
 def loadmaskdata():
   if redis.exists('mask:tw'):
       ret = redis.hgetall('mask:tw')
