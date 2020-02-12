@@ -16,9 +16,13 @@ rhost = os.environment('RHOS')
 rport = int(os.environment('RPORT'))
 rpass = os.environment('RPASS')
 redis = redis.Redis(host=rhost, port=rport, password=rpass)
-
+"""
 with open('ds.json') as f:
   ds = json.load(f)
+ds_map = {}
+for i in ds:
+  ds_map[i['i']] = i['p']
+"""
 
 def loadmaskdata():
   if redis.exists('mask:tw'):
@@ -58,10 +62,6 @@ def geolatlng(addr):
 
 def geodist(a, b):
   return distance.distance(a, b).km
-
-ds_map = {}
-for i in ds:
-  ds_map[i['i']] = i['p']
 
 @app.route("/")
 def home():
