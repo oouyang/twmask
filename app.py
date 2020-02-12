@@ -12,12 +12,12 @@ url = "https://bit.ly/twmask"
 orig = datetime(1970, 1, 1)
 geolocator = ArcGIS(user_agent='twmask')
 
+"""
 rhost = os.environ['RHOST']
 rport = int(os.environ['RPORT'])
 rpass = os.environ['RPASS']
 redis = redis.Redis(host=rhost, port=rport, password=rpass)
 
-"""
 with open('ds.json') as f:
   ds = json.load(f)
 ds_map = {}
@@ -79,6 +79,7 @@ def home():
 
 @app.route("/test")
 def test():
+  print os.environ
   return "This is Test"
 
 if __name__=="__main__":
