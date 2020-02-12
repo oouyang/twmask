@@ -79,7 +79,7 @@ def home():
 
 @app.route("/test")
 def test():
-  print os.environ
+  print (os.environ)
   return "This is Test"
 
 if __name__=="__main__":
