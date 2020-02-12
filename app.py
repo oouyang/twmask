@@ -1,6 +1,6 @@
 from flask import Flask, request
 
-import redis,json,csv,os
+import redis,json,csv,os,geocoder
 import pandas as pd
 from datetime import datetime
 from geopy import distance
@@ -10,7 +10,7 @@ app=Flask(__name__)
 
 url = "https://bit.ly/twmask"
 orig = datetime(1970, 1, 1)
-geolocator = ArcGIS(user_agent='twmask')
+#geolocator = ArcGIS(user_agent='twmask')
 rhost = os.environ['RHOST']
 rport = int(os.environ['RPORT'])
 rpass = os.environ['RPASS']
@@ -54,9 +54,10 @@ def geolatlng(addr):
   if redis.exists(f'a:{addr}'):
     location = redis.hgetall(f'a:{addr}')
   else:
-    location = geolocator.geocode(addr)
-    redis.hmset(f'a:{addr}',location)
-  return "N{};W{}".format(location.latitude,location.longitude)
+    #location = geolocator.geocode(addr)
+    location = geocoder.arcgis(addr)
+    redis.hmset(f'a:{addr}',location.json)
+  return "N{};W{}".format(location.lat,location.lng)
 
 def geodist(a, b):
   return distance.distance(a, b).km
