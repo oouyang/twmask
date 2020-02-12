@@ -29,7 +29,7 @@ for i in ds:
 
 def loadmaskdata():
   if redis.exists('mask:tw'):
-      ret = redis.hgetall('mask:tw')
+      ret = json.loads(redis.get('mask:tw'))
   else:
       md = pd.read_csv(url, encoding='utf-8')
       md_cols = ['id', 'name', 'address', 'tel', 'adult', 'child', 'lastsync']
@@ -42,10 +42,10 @@ def loadmaskdata():
          rows = csv.reader(f)
          for r in rows:
            if r[0]:
-             ret.append({ 'id': row[1], 'name': row[2], 'address': row[3],
-                          'tel': row[4], 'adult': row[5], 'child': row[6],
-                          'lastsync': row[7], 'now': row[8], 'pos': row[9]})
-      redis.hmset('mask:tw', ret)
+             ret.append({ 'id': r[1], 'name': r[2], 'address': r[3],
+                          'tel': r[4], 'adult': r[5], 'child': r[6],
+                          'lastsync': r[7], 'now': r[8], 'pos': r[9]})
+      redis.set('mask:tw', json.dumps(ret))
       redis.expire('mask:tw', 900)
   return ret
 
