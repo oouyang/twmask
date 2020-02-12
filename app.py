@@ -55,9 +55,9 @@ def geolatlng(addr):
     location = redis.hgetall(f'a:{addr}')
   else:
     #location = geolocator.geocode(addr)
-    location = geocoder.arcgis(addr)
-    redis.hmset(f'a:{addr}',location.json)
-  return "N{};W{}".format(location.lat,location.lng)
+    location = geocoder.arcgis(addr).json
+    redis.hmset(f'a:{addr}',location)
+  return "N{};W{}".format(location['lat'],location['lng'])
 
 def geodist(a, b):
   return distance.distance(a, b).km
@@ -66,7 +66,7 @@ def geodist(a, b):
 def twmask():
   lat = request.args.get('lat')
   lng = request.args.get('lng')
-  return "({lat},{lng})"
+  #return "({lat},{lng})"
   md = loadmaskdata()
   loc = (25.026536999999998, 121.544442)
   loc = (lat, lng)
