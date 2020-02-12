@@ -21,20 +21,25 @@ with open('ds.json') as f:
   ds = json.load(f)
 
 def loadmaskdata():
-  md = pd.read_csv(url, encoding='utf-8')
-  md_cols = ['id', 'name', 'address', 'tel', 'adult', 'child', 'lastsync']
-  md.columns = md_cols
-  md['now'] = int((datetime.now()-orig).total_seconds())
-  md['pos'] = md.apply(lambda x: ds_map[x.id]]['p'] if (x.id in ds_map) else geolatlng(x.address), axis=1)
-  md.to_csv('/tmp/md.csv', encoding='utf-8')
-  ret = []
-  with open('/tmp/md.csv') as f:
-     rows = csv.reader(f)
-     for r in rows:
-       if r[0]:
-         ret.append({ 'id': row[1], 'name': row[2], 'address': row[3],
-                      'tel': row[4], 'adult': row[5], 'child': row[6],
-                      'lastsync': row[7], 'now': row[8], 'pos': row[9]})
+  if redis.exists('mask:tw'):
+      ret = redis.hgetall('mask:tw')
+  else:
+      md = pd.read_csv(url, encoding='utf-8')
+      md_cols = ['id', 'name', 'address', 'tel', 'adult', 'child', 'lastsync']
+      md.columns = md_cols
+      md['now'] = int((datetime.now()-orig).total_seconds())
+      md['pos'] = md.apply(lambda x: ds_map[x.id]]['p'] if (x.id in ds_map) else geolatlng(x.address), axis=1)
+      md.to_csv('/tmp/md.csv', encoding='utf-8')
+      ret = []
+      with open('/tmp/md.csv') as f:
+         rows = csv.reader(f)
+         for r in rows:
+           if r[0]:
+             ret.append({ 'id': row[1], 'name': row[2], 'address': row[3],
+                          'tel': row[4], 'adult': row[5], 'child': row[6],
+                          'lastsync': row[7], 'now': row[8], 'pos': row[9]})
+      redis.hmset('mask:tw', ret)
+      redis.expire('mask:tw', 900)
   return ret
 
 def calcDist(md, loc):
