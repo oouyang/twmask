@@ -83,7 +83,8 @@ def home():
 
 @app.route("/test")
 def test():
-  return "This is Test"
+  addr=request.args.get('addr')
+  return geolatlng(addr)
 
 if __name__=="__main__":
   app.run()
