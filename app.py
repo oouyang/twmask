@@ -79,7 +79,7 @@ def twmask():
       calcDist(md, loc)
       ret = sorted(md[1:], key=lambda r: r['dist'])[:5]
       return json.dumps(ret)
-   else:
+  else:
       return render_template('twmask.html')
 
 @app.route("/")
