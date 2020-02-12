@@ -71,7 +71,7 @@ def geodist(a, b):
 def twmask():
   lat = request.args.get('lat')
   lng = request.args.get('lng')
-  hits = request.args.get('hits', default=5)
+  hits = request.args.get('hits', default=5, type=int)
   if lat and lng:
       #return "({lat},{lng})"
       md = loadmaskdata()
