@@ -1,6 +1,6 @@
-Flask
+Flask==1.1.1
 gunicorn
-geopy
-pandas
-redis
-geocoder
+geopy==1.21.0
+pandas==1.0.1
+redis==3.4.1
+geocoder==1.38.1
