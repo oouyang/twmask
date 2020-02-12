@@ -76,7 +76,7 @@ def twmask():
 
 @app.route("/")
 def home():
-  return "Hello Flask 2"
+  return "Hello TW Mask"
 
 @app.route("/test")
 def test():
