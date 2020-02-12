@@ -22,7 +22,6 @@ with open('ds.json') as f:
 ds_map = {}
 for i in ds:
   ds_map[i['i']] = i['p']
-"""
 
 def loadmaskdata():
   if redis.exists('mask:tw'):
@@ -63,14 +62,6 @@ def geolatlng(addr):
 def geodist(a, b):
   return distance.distance(a, b).km
 
-@app.route("/")
-def home():
-  return "Hello Flask 2"
-
-@app.route("/test")
-def test():
-  return "This is Test"
-
 @app.route("/twmask")
 def twmask():
   md = loadmaskdata()
@@ -78,6 +69,16 @@ def twmask():
   calcDist(md, loc)
   ret = sorted(md[1:], key=lambda r: r['dist'])[:5]
   return json.dumps(ret)
+
+"""
+
+@app.route("/")
+def home():
+  return "Hello Flask 2"
+
+@app.route("/test")
+def test():
+  return "This is Test"
 
 if __name__=="__main__":
   app.run()
