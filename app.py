@@ -22,7 +22,6 @@ ds_map = {}
 for i in ds:
   ds_map[i['i']] = i['p']
 
-"""
 def loadmaskdata():
   if redis.exists('mask:tw'):
       ret = redis.hgetall('mask:tw')
@@ -70,6 +69,7 @@ def twmask():
   ret = sorted(md[1:], key=lambda r: r['dist'])[:5]
   return json.dumps(ret)
 
+"""
 """
 
 @app.route("/")
