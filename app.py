@@ -12,9 +12,9 @@ url = "https://bit.ly/twmask"
 orig = datetime(1970, 1, 1)
 geolocator = ArcGIS(user_agent='twmask')
 
-rhost = os.environ('RHOST')
-rport = int(os.environ('RPORT'))
-rpass = os.environ('RPASS')
+rhost = os.environ['RHOST']
+rport = int(os.environ['RPORT'])
+rpass = os.environ['RPASS']
 redis = redis.Redis(host=rhost, port=rport, password=rpass)
 
 """
