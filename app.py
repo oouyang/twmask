@@ -63,9 +63,10 @@ def geodist(a, b):
 
 @app.route("/twmask")
 def twmask():
-  md = loadmaskdata()
   lat = request.args.get('lat')
   lng = request.args.get('lng')
+  return "({lat},{lng})"
+  md = loadmaskdata()
   loc = (25.026536999999998, 121.544442)
   loc = (lat, lng)
   calcDist(md, loc)
