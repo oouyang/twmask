@@ -1,0 +1,19 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+        function twmask() {
+            navigator.geolocation.getCurrentPosition(function(pos){
+              lat = pos.coords.latitude;
+              lng = pos.coords.longitude;
+              window.location.replace("/twmask?lat="+lat+"&lng="+lng);
+            });
+        }
+    </script>
+
+</head>
+<body onload="twmask()">
+<input type="hidden" name="lat">
+<input type="hidden" name="lng">
+</body>
+</html>

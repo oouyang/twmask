@@ -71,13 +71,16 @@ def geodist(a, b):
 def twmask():
   lat = request.args.get('lat')
   lng = request.args.get('lng')
-  #return "({lat},{lng})"
-  md = loadmaskdata()
-  loc = (25.026536999999998, 121.544442)
-  loc = (lat, lng)
-  calcDist(md, loc)
-  ret = sorted(md[1:], key=lambda r: r['dist'])[:5]
-  return json.dumps(ret)
+  if lat and lng:
+      #return "({lat},{lng})"
+      md = loadmaskdata()
+      loc = (25.026536999999998, 121.544442)
+      loc = (lat, lng)
+      calcDist(md, loc)
+      ret = sorted(md[1:], key=lambda r: r['dist'])[:5]
+      return json.dumps(ret)
+   else:
+      return render_template('twmask.html')
 
 @app.route("/")
 def home():
