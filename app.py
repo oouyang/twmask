@@ -30,7 +30,7 @@ def loadmaskdata():
       md_cols = ['id', 'name', 'address', 'tel', 'adult', 'child', 'lastsync']
       md.columns = md_cols
       md['now'] = int((datetime.now()-orig).total_seconds())
-      md['pos'] = md.apply(lambda x: ds_map[x.id]]['p'] if (x.id in ds_map) else geolatlng(x.address), axis=1)
+      md['pos'] = md.apply(lambda x: ds_map[x.id]] if (x.id in ds_map) else geolatlng(x.address), axis=1)
       md.to_csv('/tmp/md.csv', encoding='utf-8')
       ret = []
       with open('/tmp/md.csv') as f:
@@ -78,7 +78,6 @@ def home():
 
 @app.route("/test")
 def test():
-  print (os.environ)
   return "This is Test"
 
 if __name__=="__main__":
