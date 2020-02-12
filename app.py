@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 import redis,json,csv,os,geocoder
 import pandas as pd
