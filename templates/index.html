@@ -30,9 +30,10 @@
 
       "esri/map",
       "esri/dijit/Search",
+      "esri/dijit/HomeButton",
       "dojo/domReady!"
 
-    ], function (Map, Search) {
+    ], function (Map, Search, HomeButton) {
       var map = new Map("map", {
         basemap: "osm",
         center: [121.51, 25], // lon, lat
@@ -44,6 +45,10 @@
       }, "search");
       search.startup();
 
+      var home = new HomeButton({
+        map: map
+      }, "HomeButton");
+      home.startup();
     });
   </script>
 </head>
