@@ -1,56 +1,52 @@
-<html>
+<!DOCTYPE html>
+<html dir="ltr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>ArcGIS JavaScript Tutorials: Create a Starter App</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+  <title>TW Maks using ArcGIS | Basic Search</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/3.31/esri/themes/calcite/dijit/calcite.css">
+  <link rel="stylesheet" href="https://js.arcgis.com/3.31/esri/themes/calcite/esri/esri.css">
   <style>
-    html, body, #viewDiv {
-      padding: 0;
-      margin: 0;
+    html,
+    body,
+    #map {
       height: 100%;
       width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #search {
+      display: block;
+      position: absolute;
+      z-index: 2;
+      top: 20px;
+      left: 74px;
     }
   </style>
-
-  <link rel="stylesheet" href="https://js.arcgis.com/4.13/esri/css/main.css">
-  <script src="https://js.arcgis.com/4.13/"></script>
-
+  <script src="https://js.arcgis.com/3.31/"></script>
   <script>
     require([
-      "esri/Map",
-      "esri/views/MapView",
-      "esri/widgets/Legend",
-      "esri/widgets/ScaleBar"
-    ], function(Map, MapView) {
-
-      var map = new Map({
-//        basemap: "topo-vector"
-        basemap: "osm"
+      "esri/map",
+      "esri/dijit/Search",
+      "dojo/domReady!"
+    ], function (Map, Search) {
+      var map = new Map("map", {
+        basemap: "osm",
+        center: [121.51, 25],
+        //center: [-120.435, 46.159], // lon, lat
+        zoom: 15
       });
 
-      navigator.geolocation.getCurrentPosition(function(pos){
-        var view = new MapView({
-          container: "viewDiv",
-          map: map,
-          center: [pos.coords.longitude,pos.coords.latitude],
-          zoom: 15
-        });
-        var legend = new Legend({
-          view: view
-        });
-        view.ui.add(legend, "top-right");
-
-        var scalebar = new ScaleBar({
-          view: view
-        });
-        view.ui.add(scalebar, "bottom-left");
-
-      });
+      var search = new Search({
+        map: map
+      }, "search");
+      search.startup();
 
     });
   </script>
 </head>
-<body>
-  <div id="viewDiv"></div>
+
+<body class="calcite">
+<div id="search"></div>
 </body>
 </html>
