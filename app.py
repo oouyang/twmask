@@ -93,7 +93,7 @@ def map():
 
 @app.route("/latlng")
 def latlng():
-  addr=request.args.get('addr')
+  addr=request.args.get('addr','新北市景平路188號')
   return geolatlng(addr)
 
 if __name__=="__main__":
