@@ -88,7 +88,7 @@ def home():
     return render_template('twmask.html')
 
 @app.route("/map")
-def home():
+def map():
     return render_template('map.html')
 
 @app.route("/test")
