@@ -91,8 +91,8 @@ def home():
 def map():
     return render_template('map.html')
 
-@app.route("/test")
-def test():
+@app.route("/latlng")
+def latlng():
   addr=request.args.get('addr')
   return geolatlng(addr)
 
