@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 
-import redis,json,csv,os,geocoder
+import redis,json,csv,os,geocoder,psycopg2
 import pandas as pd
 from datetime import datetime
 from geopy import distance
@@ -15,6 +15,9 @@ rhost = os.environ['RHOST']
 rport = int(os.environ['RPORT'])
 rpass = os.environ['RPASS']
 redis = redis.Redis(host=rhost, port=rport, password=rpass)
+
+db_url = os.getenv('DATABASE_URL')
+conn = psycopg2.connect(db_url, sslmode='require')
 
 with open('ds.json') as f:
   ds = json.load(f)
@@ -67,6 +70,13 @@ def geolatlng(addr):
 def geodist(a, b):
   return distance.distance(a, b).km
 
+def logsql(ip, lat, lng):
+  cursor = conn.cursor()
+  insert_query = """insert into log (ip,lat,lng,grant_date) values (%s,%s,%s,GETDATE())"""
+  record_to_insert = (ip,lat,lng)
+  cursor.execute(insert_query, record_to_insert)
+  conn.commit()
+
 @app.route("/twmask")
 def twmask():
   lat = request.args.get('lat')
@@ -79,6 +89,8 @@ def twmask():
       loc = (lat, lng)
       calcDist(md, loc)
       ret = sorted(md[1:], key=lambda r: r['dist'])[:hits]
+      ip = request.remote_addr
+      logsql(ip, lat,lng)
       return json.dumps(ret)
   else:
       return render_template('twmask.html')
@@ -98,3 +110,32 @@ def latlng():
 
 if __name__=="__main__":
   app.run()
+
+
+  """
+  Geographical Searches
+  https://docs.vespa.ai/documentation/geo-search.html
+  https://docs.vespa.ai/documentation/reference/search-definitions-reference.html#type:position
+  https://docs.vespa.ai/documentation/reference/search-api-reference.html#geographical-searches
+  https://docs.vespa.ai/documentation/reference/document-json-format.html
+  https://docs.vespa.ai/documentation/reference/rank-features.html#distanceToPath(name).distance
+Restrict
+  a position + radius or a bounding box
+
+Rank
+  distance(latlong)
+
+
+create (create if nonexistent)
+Updates to nonexistent documents are supported using create. Refer to writing to Vespa for semantics.
+
+{
+    "update": "id:mynamespace:music::http://music.yahoo.com/bobdylan/BestOf",
+    "create": true,
+    "fields": {
+        "title": {
+            "assign": "The best of Bob Dylan"
+        }
+    }
+}
+  """
