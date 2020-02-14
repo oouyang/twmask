@@ -89,7 +89,7 @@ def twmask():
       loc = (lat, lng)
       calcDist(md, loc)
       ret = sorted(md[1:], key=lambda r: r['dist'])[:hits]
-      ip = request.remote_addr
+      ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
       logsql(ip, lat,lng)
       return json.dumps(ret)
   else:
