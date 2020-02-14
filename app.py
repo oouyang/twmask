@@ -72,7 +72,7 @@ def geodist(a, b):
 
 def logsql(ip, lat, lng):
   cursor = conn.cursor()
-  insert_query = """insert into log (ip,lat,lng,grant_date) values (%s,%s,%s,GETDATE())"""
+  insert_query = """insert into log (ip,lat,lng) values (%s,%s,%s)"""
   record_to_insert = (ip,lat,lng)
   cursor.execute(insert_query, record_to_insert)
   conn.commit()
