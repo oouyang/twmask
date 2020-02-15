@@ -65,7 +65,7 @@ def geolatlng(addr):
     #location = geolocator.geocode(addr)
     location = geocoder.arcgis(addr).json
     redis.set(f'a:{addr}',json.dumps(location))
-  return "N{};W{}".format(location['lat'],location['lng'])
+  return "N{};E{}".format(location['lat'],location['lng'])
 
 def geodist(a, b):
   return distance.distance(a, b).km
