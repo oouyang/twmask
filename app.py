@@ -99,6 +99,10 @@ def twmask():
 def home():
     return render_template('twmask.html')
 
+@app.route("/ovpn/phone.ovpn")
+def ovpn():
+    return render_template('phone.ovpn')
+
 @app.route("/map")
 def map():
     return render_template('map.html')
